@@ -1,41 +1,71 @@
-var minutes = 25;
-var seconds = "00";
-var click = new Audio("click.mp3");
-var bell = new Audio("bell.mp3");
-function template(){
-    document.getElementById('minutes').innerHTML= minutes;
-    document.getElementById('seconds').innerHTML= seconds;
-}
+var start = document.getElementById('start');
+var stop = document.getElementById('stop');
+var reset = document.getElementById('reset');
 
-function strat(){
- click.play();
+var wm = document.getElementById('minutes');
+var ws = document.getElementById('seconds');
 
- minutes = 24;
- seconds = 59;
+var bm = document.getElementById('b_minutes');
+var bs = document.getElementById('b_seconds');
 
- document.getElementById('minutes').innerHTML= minutes;
- document.getElementById('seconds').innerHTML= seconds;
-
- var minutes_interval = setInterval(minutesTimer, 60000);
- var seconds_interval = setInterval(secondsTimer, 1000);
-
- function minutesTimer(){
-     minutes = minutes - 1;
-     document.getElementById('minutes').innerHTML = minutes;
- }
- function secondsTimer(){
-    seconds = seconds - 1;
-    document.getElementById('seconds').innerHTML = seconds;
-    if(seconds <= 0){
-        if(minutes <=0){
-            clearInterval(minutes_interval);
-            clearInterval(seconds_interval);
-            document.getElementById('done').innerHTML="Session Completed! Take a Break";
-            document.getElementById('done').classList.add("show_message");
-            bell.play();
+//timer variable
+var startTime;
+start.addEventListener('click',function(){
+    if(startTime === undefined){
+        startTime = setInterval(time, 1000)
+    }else{
+        alert("Time is already runnimg");
+    }
+    
+})
+reset.addEventListener('click', function(){
+    wm.innerText = 25;
+    ws.innerText = "00";
+    bm.innerText = 5;
+    bs.innerText = "00";
+    document.getElementById('counter').innerText = 0;
+    stopInterval()
+    startTime = undefined;
+    
+})
+stop.addEventListener('click', function(){
+    stopInterval()
+    startTime = undefined;
+    
+})
+//start time function
+function time() {
+    //work time
+    if(ws.innerText !=0){
+        ws.innerText--;
+    }else if(wm.innerText !=0 && ws.innerText ==0){
+        ws.innerText = 59;
+        wm.innerText--;
+    }
+    //break time
+    if(wm.innerText == 0 && ws.innerText == 0){
+        if(bs.innerText !=0){
+            bs.innerText--;
+        }else if(bm.innerText !=0 && bs.innerText == 0){
+            bs.innerText = 59;
+            bm.innerText--;
         }
-        seconds = 60
+    }
+
+    //cycle
+    if(wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 0 && bs.innerText == 0){
+     wm.innerText = 25;
+     ws.innerText = "00";
+     bm.innerText = 5;
+     bs.innerText = "00";
+     document.getElementById('counter').innerText++;   
 
     }
+
 }
+
+//stop time function
+
+function stopInterval() {
+    clearInterval(startTime);
 }
