@@ -20,7 +20,7 @@ body{
     align-items: center;
     box-shadow:4px 4px 4px 2px rgba(0, 0, 0, 0.4);
 }
-.btn:hover{
+.btn{
     color: #e3f6f5;
     border: 2px solid transparent;
     padding: 1rem;
